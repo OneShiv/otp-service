@@ -18,7 +18,7 @@ app.post('/generate_otp', (req, res) => {
     expiry: 1
   };
 
-  axios.get('https://api.msg91.com/api/v5/otp', {
+  axios.get(process.env.BASE_URL + '/otp', {
     params: options
   }).then((result) => {
     const data = result.data
@@ -33,7 +33,7 @@ app.post('/generate_otp', (req, res) => {
 app.post('/verify_otp', (req, res) => {
   const body = req.body
   const { mobile, otp } = body
-  axios.post("https://api.msg91.com/api/v5/otp/verify?mobile=" + mobile + "&otp=" + otp + "&authkey=" + process.env.SECRET_KEY).then(result => {
+  axios.post(process.env.BASE_URL + "/otp/verify?mobile=" + mobile + "&otp=" + otp + "&authkey=" + process.env.SECRET_KEY).then(result => {
     res.status(200).send(result.data)
   }).catch(err => {
     res.status(400).send({
